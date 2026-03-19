@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satguru Tejasya</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark: #0b0b0f;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+            transition: direction 0.3s ease;
+        }
+
+        /* HEADER */
+        header {
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .logo {
+            width: 140px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.6));
+            transition: 0.4s;
+        }
+
+        .logo:hover {
+            transform: scale(1.08);
+            filter: drop-shadow(0 0 35px rgba(212, 175, 55, 0.9));
+        }
+
+        /* Language Button */
+        .lang-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: 0.3s;
+            background: transparent;
+        }
+
+        body[dir="rtl"] .lang-btn {
+            right: auto;
+            left: 20px;
+        }
+
+        .lang-btn:hover {
+            background: var(--gold);
+            color: black;
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        /* Language Panel */
+        .lang-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            max-width: 70%;
+            height: 100%;
+            background: #111;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.8);
+            transition: 0.4s ease-in-out;
+            padding: 40px 20px;
+            text-align: left;
+            z-index: 1000;
+        }
+
+        body[dir="rtl"] .lang-panel {
+            right: auto;
+            left: -100%;
+            text-align: right;
+        }
+
+        .lang-panel.active {
+            right: 0;
+        }
+
+        body[dir="rtl"] .lang-panel.active {
+            left: 0;
+        }
+
+        .lang-panel h3 {
+            color: var(--gold);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 10px;
+        }
+
+        .lang-panel ul {
+            list-style: none;
+        }
+
+        .lang-panel li {
+            padding: 12px 0;
+            border-bottom: 1px solid #222;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #ddd;
+        }
+
+        .lang-panel li:hover {
+            color: var(--gold);
+            padding-left: 10px;
+        }
+
+        body[dir="rtl"] .lang-panel li:hover {
+            padding-left: 0;
+            padding-right: 10px;
+        }
+
+        /* TEXT BELOW LOGO */
+        .brand-top {
+            font-size: 20px;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.9);
+            animation: sparkleGlow 2s infinite alternate;
+        }
+
+        .brand-line {
+            height: 2px;
+            width: 150px;
+            margin: 10px auto 0;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            box-shadow: 0 0 10px var(--gold), 0 0 25px rgba(212, 175, 55, 0.7);
+        }
+
+        .tagline {
+            color: var(--gold);
+            font-size: 22px;
+            margin-top: 15px;
+        }
+
+        .sub-tagline {
+            color: #aaa;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        /* WHAT WE DO */
+        .section-title {
+            margin-top: 40px;
+            font-size: 26px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        /* SERVICES (EXPANDABLE BOXES) */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-box {
+            background: var(--glass);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 30px 20px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-box:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            border: 1px solid var(--gold);
+        }
+
+        .service-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+            transition: 0.4s;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+        }
+
+        .service-box h4 {
+            margin-bottom: 10px;
+            color: var(--gold);
+            font-size: 22px;
+        }
+
+        .service-box > p.short-desc {
+            font-size: 14px;
+            color: #bbb;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        /* EXPAND ICON */
+        .expand-icon {
+            color: var(--gold);
+            font-size: 20px;
+            margin-top: 5px;
+            transition: transform 0.4s ease;
+        }
+
+        /* HIDDEN DETAILS INSIDE BOX */
+        .service-details {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+            text-align: left;
+            width: 100%;
+        }
+
+        body[dir="rtl"] .service-details {
+            text-align: right;
+        }
+
+        /* WHEN BOX IS EXPANDED */
+        .service-box.expanded {
+            background: rgba(212, 175, 55, 0.08);
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            border-color: var(--gold);
+        }
+
+        .service-box.expanded .service-details {
+            max-height: 500px; /* पर्याप्त ऊंचाई */
+            opacity: 1;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .service-box.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        /* CONTENT INSIDE DETAILS */
+        .service-details ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        body[dir="rtl"] .service-details ul {
+            padding-left: 0;
+            padding-right: 20px;
+        }
+
+        .service-details li {
+            font-size: 14px;
+            color: #ddd;
+            margin-bottom: 8px;
+        }
+
+        .service-details .impact {
+            font-size: 14px;
+            color: var(--gold);
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .start-project-btn {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: 0.3s;
+            padding: 12px 15px;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #111, #222);
+            border: 1px solid var(--gold);
+            box-shadow: 0 0 10px rgba(212,175,55,0.2);
+            width: 100%;
+        }
+
+        .start-project-btn:hover {
+            background: var(--gold);
+            color: black;
+            box-shadow: 0 0 20px var(--gold);
+            letter-spacing: 1px;
+        }
+
+        @keyframes sparkleGlow {
+            from { text-shadow: 0 0 8px rgba(212, 175, 55, 0.6); }
+            to { text-shadow: 0 0 18px rgba(212, 175, 55, 1); }
+        }
+
+        /* FOOTER */
+        footer {
+            background: #080808;
+            padding: 50px 20px 30px;
+            text-align: center;
+            margin-top: 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .sig {
+            font-size: 20px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .line {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            width: 50%;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-info p {
+            font-size: 16px;
+        }
+
+        .contact-info a {
+            color: #ccc;
+            text-decoration: none;
+            transition: 0.3s;
+            margin-left: 10px;
+        }
+
+        .contact-info a:hover {
+            color: var(--gold);
+        }
+
+    </style>
+</head>
+<body dir="ltr">
+
+<header>
+    <button class="lang-btn" onclick="toggleLang()" aria-label="Change Language">🌐</button>
+    <div class="brand-top" data-key="brandTop">✨ KVIRDEV ✨</div>
+    <div class="brand-line"></div>
+    <img src="images/logo.png" alt="Satguru Tejasya Logo" class="logo" onerror="this.style.display='none'">
+    <h2 class="tagline" data-key="tagline">Professional Excellence</h2>
+    <p class="sub-tagline" data-key="subTagline">Setting Global Standards in Digital Intelligence</p>
+</header>
+
+<!-- LANGUAGE PANEL -->
+<div class="lang-panel" id="langPanel">
+    <h3 data-key="selectLang">Select Language</h3>
+    <ul>
+        <li onclick="changeLanguage('en')">English</li>
+        <li onclick="changeLanguage('hi')">हिन्दी</li>
+        <li onclick="changeLanguage('gu')">ગુજરાતી</li>
+        <li onclick="changeLanguage('ur')">اردو</li>
+        <li onclick="changeLanguage('pa')">ਪੰਜਾਬੀ</li>
+    </ul>
+</div>
+
+<!-- WHAT WE DO -->
+<div class="section-title" data-key="whatWeDo">What We Do</div>
+
+<div class="services">
+    <!-- Service 1 -->
+    <div class="service-box" onclick="toggleService(this)">
+        <div class="service-icon">💡</div>
+        <h4 data-key="s1_title">Digital Strategy</h4>
+        <p class="short-desc" data-key="s1_desc">Helping businesses grow with clarity and direction.</p>
+        <div class="expand-icon">▼</div>
+        
+        <div class="service-details">
+            <ul data-key="s1_list">
+                <li>Market Research & Positioning</li>
+                <li>Competitor Analysis</li>
+                <li>Content Strategy</li>
+                <li>Revenue Model Planning</li>
+                <li>Growth Roadmap Design</li>
+            </ul>
+            <p class="impact"><strong data-key="processWord">Process:</strong> <span data-key="s1_impact">Discovery → Strategy → Execution</span></p>
+            <!-- event.stopPropagation() बॉक्स को बंद होने से रोकता है जब बटन दबाया जाता है -->
+            <a href="https://wa.me/919456801811" target="_blank" class="start-project-btn" data-key="startBtn" onclick="event.stopPropagation()">🚀 Start Your Project</a>
+        </div>
+    </div>
+    
+    <!-- Service 2 -->
+    <div class="service-box" onclick="toggleService(this)">
+        <div class="service-icon">🎨</div>
+        <h4 data-key="s2_title">Brand Design</h4>
+        <p class="short-desc" data-key="s2_desc">Creating strong identities and visuals.</p>
+        <div class="expand-icon">▼</div>
+
+        <div class="service-details">
+            <ul data-key="s2_list">
+                <li>Logo Design</li>
+                <li>Brand Color System</li>
+                <li>Typography Guidelines</li>
+                <li>Social Media Kit</li>
+                <li>Brand Positioning</li>
+            </ul>
+            <p class="impact"><strong data-key="outcomeWord">Outcome:</strong> <span data-key="s2_impact">A premium and consistent brand identity.</span></p>
+            <a href="https://wa.me/919456801811" target="_blank" class="start-project-btn" data-key="startBtn" onclick="event.stopPropagation()">🚀 Start Your Project</a>
+        </div>
+    </div>
+    
+    <!-- Service 3 -->
+    <div class="service-box" onclick="toggleService(this)">
+        <div class="service-icon">🤖</div>
+        <h4 data-key="s3_title">AI Solutions</h4>
+        <p class="short-desc" data-key="s3_desc">Smart automation for modern work.</p>
+        <div class="expand-icon">▼</div>
+
+        <div class="service-details">
+            <ul data-key="s3_list">
+                <li>AI Chatbots</li>
+                <li>Content Automation</li>
+                <li>Customer Support AI</li>
+                <li>Predictive Analysis</li>
+                <li>Workflow AI Tools</li>
+            </ul>
+            <p class="impact"><strong data-key="benefitWord">Benefit:</strong> <span data-key="s3_impact">Reduce cost & increase efficiency.</span></p>
+            <a href="https://wa.me/919456801811" target="_blank" class="start-project-btn" data-key="startBtn" onclick="event.stopPropagation()">🚀 Start Your Project</a>
+        </div>
+    </div>
+    
+    <!-- Service 4 -->
+    <div class="service-box" onclick="toggleService(this)">
+        <div class="service-icon">💻</div>
+        <h4 data-key="s4_title">Web Development</h4>
+        <p class="short-desc" data-key="s4_desc">Modern, fast and scalable websites.</p>
+        <div class="expand-icon">▼</div>
+
+        <div class="service-details">
+            <ul data-key="s4_list">
+                <li>Business Websites</li>
+                <li>Landing Pages</li>
+                <li>E-commerce Development</li>
+                <li>Performance Optimization</li>
+                <li>SEO Setup</li>
+            </ul>
+            <p class="impact"><strong data-key="goalWord">Goal:</strong> <span data-key="s4_impact">High converting digital presence.</span></p>
+            <a href="https://wa.me/919456801811" target="_blank" class="start-project-btn" data-key="startBtn" onclick="event.stopPropagation()">🚀 Start Your Project</a>
+        </div>
+    </div>
+    
+    <!-- Service 5 -->
+    <div class="service-box" onclick="toggleService(this)">
+        <div class="service-icon">📊</div>
+        <h4 data-key="s5_title">Data Analytics</h4>
+        <p class="short-desc" data-key="s5_desc">Turning raw data into smart decisions.</p>
+        <div class="expand-icon">▼</div>
+
+        <div class="service-details">
+            <ul data-key="s5_list">
+                <li>Sales Analysis</li>
+                <li>Customer Insights</li>
+                <li>Performance Tracking</li>
+                <li>Business Reports</li>
+                <li>Growth Metrics</li>
+            </ul>
+            <p class="impact"><strong data-key="resultWord">Result:</strong> <span data-key="s5_impact">Clear & data-driven decisions.</span></p>
+            <a href="https://wa.me/919456801811" target="_blank" class="start-project-btn" data-key="startBtn" onclick="event.stopPropagation()">🚀 Start Your Project</a>
+        </div>
+    </div>
+
+    <!-- Service 6 -->
+    <div class="service-box" onclick="toggleService(this)">
+        <div class="service-icon">⚙️</div>
+        <h4 data-key="s6_title">Automation Systems</h4>
+        <p class="short-desc" data-key="s6_desc">Optimizing workflows with intelligent tools.</p>
+        <div class="expand-icon">▼</div>
+
+        <div class="service-details">
+            <ul data-key="s6_list">
+                <li>Email Automation</li>
+                <li>Lead Capture System</li>
+                <li>CRM Integration</li>
+                <li>Payment Automation</li>
+                <li>Task Workflow Setup</li>
+            </ul>
+            <p class="impact"><strong data-key="impactWord">Impact:</strong> <span data-key="s6_impact">24/7 business operations.</span></p>
+            <a href="https://wa.me/919456801811" target="_blank" class="start-project-btn" data-key="startBtn" onclick="event.stopPropagation()">🚀 Start Your Project</a>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="sig" data-key="footerSig">✨ SATGURU TEJASYA ✨</div>
+    <p style="color: #8bc34a; font-size: 14px; margin-top: 5px;" data-key="footerSlogan">🌿 Professional Excellence Your Brand 🌿</p>
+    <div class="line"></div>
+    
+    <div class="contact-info">
+        <p>📧 <a href="mailto:tejasyaexcellence@gmail.com">tejasyaexcellence@gmail.com</a></p>
+        <p>📱 <a href="tel:9456801811">+91 9456801811</a></p>
+        <p>💬 <a href="https://wa.me/919456801811" target="_blank">WhatsApp</a></p>
+        <p>🚀 <a href="https://t.me/@GKDAAS1mill" target="_blank">Telegram</a></p>
+    </div>
+    
+    <p style="font-size: 12px; color: #555; margin-top: 20px;">© 2026 TEJASYA</p>
+</footer>
+
+<script>
+    // --- 1. अकॉर्डियन लॉजिक (क्लिक करने पर बॉक्स खोलने के लिए) ---
+    function toggleService(element) {
+        element.classList.toggle('expanded');
+    }
+
+    // --- 2. भाषा पैनल लॉजिक ---
+    const langPanel = document.getElementById("langPanel");
+    
+    function toggleLang() {
+        langPanel.classList.toggle("active");
+    }
+
+    // बाहर क्लिक करने पर भाषा पैनल बंद करने के लिए
+    document.addEventListener("click", function(e) {
+        const langBtn = document.querySelector(".lang-btn");
+        if (!langPanel.contains(e.target) && !langBtn.contains(e.target)) {
+            langPanel.classList.remove("active");
+        }
+    });
+
+    // --- 3. अनुवाद इंजन (Translation Engine) ---
+    const translations = {
+        en: {
+            brandTop: "✨ KVIRDEV ✨",
+            tagline: "Professional Excellence",
+            subTagline: "Setting Global Standards in Digital Intelligence",
+            selectLang: "Select Language",
+            whatWeDo: "What We Do",
+            startBtn: "🚀 Start Your Project",
+            processWord: "Process:", outcomeWord: "Outcome:", benefitWord: "Benefit:", goalWord: "Goal:", resultWord: "Result:", impactWord: "Impact:",
+            
+            s1_title: "Digital Strategy", s1_desc: "Helping businesses grow with clarity and direction.",
+            s1_list: "<li>Market Research & Positioning</li><li>Competitor Analysis</li><li>Content Strategy</li><li>Revenue Model Planning</li><li>Growth Roadmap Design</li>",
+            s1_impact: "Discovery → Strategy → Execution",
+            
+            s2_title: "Brand Design", s2_desc: "Creating strong identities and visuals.",
+            s2_list: "<li>Logo Design</li><li>Brand Color System</li><li>Typography Guidelines</li><li>Social Media Kit</li><li>Brand Positioning</li>",
+            s2_impact: "A premium and consistent brand identity.",
+            
+            s3_title: "Ai Solutions", s3_desc: "Smart automation for modern work.",
+            s3_list: "<li>AI Chatbots</li><li>Content Automation</li><li>Customer Support AI</li><li>Predictive Analysis</li><li>Workflow AI Tools</li>",
+            s3_impact: "Reduce cost & increase efficiency.",
+            
+            s4_title: "Web Development", s4_desc: "Modern, fast and scalable websites.",
+            s4_list: "<li>Business Websites</li><li>Landing Pages</li><li>E-commerce Development</li><li>Performance Optimization</li><li>SEO Setup</li>",
+            s4_impact: "High converting digital presence.",
+            
+            s5_title: "Data Analytics", s5_desc: "Turning raw data into smart decisions.",
+            s5_list: "<li>Sales Analysis</li><li>Customer Insights</li><li>Performance Tracking</li><li
